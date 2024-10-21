@@ -3,16 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
 namespace AmableQuishpePromBurgers.Migrations
 {
-    [DbContext(typeof(PromBurgersContext))]
-    partial class PromBurgersContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(AmableQuishpePromBurgersContext))]
+    [Migration("20241021183447_SegundoCambio")]
+    partial class SegundoCambio
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,13 +24,13 @@ namespace AmableQuishpePromBurgers.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AmableQuishpePromBurgers.Models.Burges", b =>
+            modelBuilder.Entity("AmableQuishpePromBurgers.Models.Burger", b =>
                 {
-                    b.Property<int>("BurgesId")
+                    b.Property<int>("Burgerid")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BurgesId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Burgerid"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -36,50 +39,50 @@ namespace AmableQuishpePromBurgers.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("WithCheese")
+                    b.Property<bool>("Withcheese")
                         .HasColumnType("bit");
 
-                    b.HasKey("BurgesId");
+                    b.HasKey("Burgerid");
 
-                    b.ToTable("Burges");
+                    b.ToTable("Burger");
                 });
 
             modelBuilder.Entity("AmableQuishpePromBurgers.Models.Promo", b =>
                 {
-                    b.Property<int>("PromoId")
+                    b.Property<int>("Promoid")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PromoId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Promoid"));
 
-                    b.Property<int>("BurgesId")
+                    b.Property<int>("Burgerid")
                         .HasColumnType("int");
 
-                    b.Property<string>("Descrpcion")
+                    b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("FechaPromo")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("PromoId");
+                    b.HasKey("Promoid");
 
-                    b.HasIndex("BurgesId");
+                    b.HasIndex("Burgerid");
 
                     b.ToTable("Promo");
                 });
 
             modelBuilder.Entity("AmableQuishpePromBurgers.Models.Promo", b =>
                 {
-                    b.HasOne("AmableQuishpePromBurgers.Models.Burges", "Burges")
+                    b.HasOne("AmableQuishpePromBurgers.Models.Burger", "Burger")
                         .WithMany("Promos")
-                        .HasForeignKey("BurgesId")
+                        .HasForeignKey("Burgerid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Burges");
+                    b.Navigation("Burger");
                 });
 
-            modelBuilder.Entity("AmableQuishpePromBurgers.Models.Burges", b =>
+            modelBuilder.Entity("AmableQuishpePromBurgers.Models.Burger", b =>
                 {
                     b.Navigation("Promos");
                 });

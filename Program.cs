@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<PromBurgersContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PromBurgersContext") ?? throw new InvalidOperationException("Connection string 'PromBurgersContext' not found.")));
+builder.Services.AddDbContext<AmableQuishpePromBurgersContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AmableQuishpePromBurgersContext") ?? throw new InvalidOperationException("Connection string 'AmableQuishpePromBurgersContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

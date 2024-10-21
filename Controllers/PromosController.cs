@@ -9,22 +9,23 @@ using AmableQuishpePromBurgers.Models;
 
 namespace AmableQuishpePromBurgers.Controllers
 {
-    public class BurgesController : Controller
+    public class PromosController : Controller
     {
-        private readonly PromBurgersContext _context;
+        private readonly AmableQuishpePromBurgersContext _context;
 
-        public BurgesController(PromBurgersContext context)
+        public PromosController(AmableQuishpePromBurgersContext context)
         {
             _context = context;
         }
 
-        // GET: Burges
+        // GET: Promos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Burges.ToListAsync());
+            var amableQuishpePromBurgersContext = _context.Promo.Include(p => p.Burger);
+            return View(await amableQuishpePromBurgersContext.ToListAsync());
         }
 
-        // GET: Burges/Details/5
+        // GET: Promos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +33,42 @@ namespace AmableQuishpePromBurgers.Controllers
                 return NotFound();
             }
 
-            var burges = await _context.Burges
-                .FirstOrDefaultAsync(m => m.BurgesId == id);
-            if (burges == null)
+            var promo = await _context.Promo
+                .Include(p => p.Burger)
+                .FirstOrDefaultAsync(m => m.Promoid == id);
+            if (promo == null)
             {
                 return NotFound();
             }
 
-            return View(burges);
+            return View(promo);
         }
 
-        // GET: Burges/Create
+        // GET: Promos/Create
         public IActionResult Create()
         {
+            ViewData["Burgerid"] = new SelectList(_context.Burger, "Burgerid", "Name");
             return View();
         }
 
-        // POST: Burges/Create
+        // POST: Promos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BurgesId,Name,WithCheese,Price")] Burges burges)
+        public async Task<IActionResult> Create([Bind("Promoid,Descripcion,FechaPromo,Burgerid")] Promo promo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(burges);
+                _context.Add(promo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(burges);
+            ViewData["Burgerid"] = new SelectList(_context.Burger, "Burgerid", "Name", promo.Burgerid);
+            return View(promo);
         }
 
-        // GET: Burges/Edit/5
+        // GET: Promos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +76,23 @@ namespace AmableQuishpePromBurgers.Controllers
                 return NotFound();
             }
 
-            var burges = await _context.Burges.FindAsync(id);
-            if (burges == null)
+            var promo = await _context.Promo.FindAsync(id);
+            if (promo == null)
             {
                 return NotFound();
             }
-            return View(burges);
+            ViewData["Burgerid"] = new SelectList(_context.Burger, "Burgerid", "Name", promo.Burgerid);
+            return View(promo);
         }
 
-        // POST: Burges/Edit/5
+        // POST: Promos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BurgesId,Name,WithCheese,Price")] Burges burges)
+        public async Task<IActionResult> Edit(int id, [Bind("Promoid,Descripcion,FechaPromo,Burgerid")] Promo promo)
         {
-            if (id != burges.BurgesId)
+            if (id != promo.Promoid)
             {
                 return NotFound();
             }
@@ -96,12 +101,12 @@ namespace AmableQuishpePromBurgers.Controllers
             {
                 try
                 {
-                    _context.Update(burges);
+                    _context.Update(promo);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BurgesExists(burges.BurgesId))
+                    if (!PromoExists(promo.Promoid))
                     {
                         return NotFound();
                     }
@@ -112,10 +117,11 @@ namespace AmableQuishpePromBurgers.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(burges);
+            ViewData["Burgerid"] = new SelectList(_context.Burger, "Burgerid", "Name", promo.Burgerid);
+            return View(promo);
         }
 
-        // GET: Burges/Delete/5
+        // GET: Promos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,34 +129,35 @@ namespace AmableQuishpePromBurgers.Controllers
                 return NotFound();
             }
 
-            var burges = await _context.Burges
-                .FirstOrDefaultAsync(m => m.BurgesId == id);
-            if (burges == null)
+            var promo = await _context.Promo
+                .Include(p => p.Burger)
+                .FirstOrDefaultAsync(m => m.Promoid == id);
+            if (promo == null)
             {
                 return NotFound();
             }
 
-            return View(burges);
+            return View(promo);
         }
 
-        // POST: Burges/Delete/5
+        // POST: Promos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var burges = await _context.Burges.FindAsync(id);
-            if (burges != null)
+            var promo = await _context.Promo.FindAsync(id);
+            if (promo != null)
             {
-                _context.Burges.Remove(burges);
+                _context.Promo.Remove(promo);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BurgesExists(int id)
+        private bool PromoExists(int id)
         {
-            return _context.Burges.Any(e => e.BurgesId == id);
+            return _context.Promo.Any(e => e.Promoid == id);
         }
     }
 }

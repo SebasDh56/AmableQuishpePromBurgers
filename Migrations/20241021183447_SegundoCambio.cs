@@ -15,27 +15,27 @@ namespace AmableQuishpePromBurgers.Migrations
                 name: "Promo",
                 columns: table => new
                 {
-                    PromoId = table.Column<int>(type: "int", nullable: false)
+                    Promoid = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Descrpcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FechaPromo = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BurgesId = table.Column<int>(type: "int", nullable: false)
+                    Burgerid = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Promo", x => x.PromoId);
+                    table.PrimaryKey("PK_Promo", x => x.Promoid);
                     table.ForeignKey(
-                        name: "FK_Promo_Burges_BurgesId",
-                        column: x => x.BurgesId,
-                        principalTable: "Burges",
-                        principalColumn: "BurgesId",
+                        name: "FK_Promo_Burger_Burgerid",
+                        column: x => x.Burgerid,
+                        principalTable: "Burger",
+                        principalColumn: "Burgerid",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Promo_BurgesId",
+                name: "IX_Promo_Burgerid",
                 table: "Promo",
-                column: "BurgesId");
+                column: "Burgerid");
         }
 
         /// <inheritdoc />

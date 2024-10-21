@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AmableQuishpePromBurgers.Migrations
 {
-    [DbContext(typeof(PromBurgersContext))]
-    [Migration("20241021153337_Inicio")]
-    partial class Inicio
+    [DbContext(typeof(AmableQuishpePromBurgersContext))]
+    [Migration("20241021181446_inicio")]
+    partial class inicio
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,13 +23,13 @@ namespace AmableQuishpePromBurgers.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AmableQuishpePromBurgers.Models.Burges", b =>
+            modelBuilder.Entity("AmableQuishpePromBurgers.Models.Burger", b =>
                 {
-                    b.Property<int>("BurgesId")
+                    b.Property<int>("Burgerid")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BurgesId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Burgerid"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -38,12 +38,12 @@ namespace AmableQuishpePromBurgers.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("WithCheese")
+                    b.Property<bool>("Withcheese")
                         .HasColumnType("bit");
 
-                    b.HasKey("BurgesId");
+                    b.HasKey("Burgerid");
 
-                    b.ToTable("Burges");
+                    b.ToTable("Burger");
                 });
 #pragma warning restore 612, 618
         }
